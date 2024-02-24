@@ -18,11 +18,11 @@ message Entity {
 }
 
 message CreateEntityRequest {
-  Entity entity = 1;
+  Entity payload  = 1;
 }
 
 message CreateEntityResponse {
-  Entity entity = 1;
+  Entity result = 1;
 }
 
 message GetEntityRequest {
@@ -30,7 +30,7 @@ message GetEntityRequest {
 }
 
 message GetEntityResponse {
-  Entity entity = 1;
+  Entity result = 1;
 }
 
 message ListEntitiesRequest {
@@ -39,16 +39,16 @@ message ListEntitiesRequest {
 }
 
 message ListEntitiesResponse {
-  repeated Entity entities = 1;
+  repeated Entity results = 1;
 }
 
 message UpdateEntityRequest {
-  int64 id = 1;
-  Entity entity = 2;
+    string id = 1;
+    Entity payload = 2;
 }
 
 message UpdateEntityResponse {
-  Entity entity = 1;
+  Entity result = 1;
 }
 
 message DeleteEntityRequest {
@@ -56,7 +56,7 @@ message DeleteEntityRequest {
 }
 
 message DeleteEntityResponse {
-  Entity entity = 1;
+  Entity result = 1;
 }
 
 service EntityService {
