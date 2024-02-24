@@ -1,0 +1,94 @@
+syntax = "proto3";
+
+package entity.v1;
+
+option go_package = "github.com/c0rwin/buf-gorm-demo/entity/v1";
+
+import "google/api/annotations.proto";
+import "options/gorm.proto";
+import "google/protobuf/timestamp.proto";
+
+message Entity {
+    option (gorm.opts) = {ormable: true};
+
+    string id = 1 [(gorm.field).tag = {type: "uuid" primary_key: true}];
+    string name = 2;
+    google.protobuf.Timestamp created_at = 3;
+    google.protobuf.Timestamp updated_at = 4;
+}
+
+message CreateEntityRequest {
+  Entity entity = 1;
+}
+
+message CreateEntityResponse {
+  Entity entity = 1;
+}
+
+message GetEntityRequest {
+  int64 id = 1;
+}
+
+message GetEntityResponse {
+  Entity entity = 1;
+}
+
+message ListEntitiesRequest {
+  int32 page = 1;
+  int32 per_page = 2;
+}
+
+message ListEntitiesResponse {
+  repeated Entity entities = 1;
+}
+
+message UpdateEntityRequest {
+  int64 id = 1;
+  Entity entity = 2;
+}
+
+message UpdateEntityResponse {
+  Entity entity = 1;
+}
+
+message DeleteEntityRequest {
+  int64 id = 1;
+}
+
+message DeleteEntityResponse {
+  Entity entity = 1;
+}
+
+service EntityService {
+  rpc CreateEntity (CreateEntityRequest) returns (CreateEntityResponse) {
+    option (google.api.http) = {
+      post: "/v1/entities"
+      body: "*"
+    };
+  }
+
+  rpc GetEntity (GetEntityRequest) returns (GetEntityResponse) {
+    option (google.api.http) = {
+      get: "/v1/entities/{id}"
+    };
+  }
+
+  rpc ListEntities (ListEntitiesRequest) returns (ListEntitiesResponse) {
+    option (google.api.http) = {
+      get: "/v1/entities"
+    };
+  }
+
+  rpc UpdateEntity (UpdateEntityRequest) returns (UpdateEntityResponse) {
+    option (google.api.http) = {
+      put: "/v1/entities/{id}"
+      body: "*"
+    };
+  }
+
+  rpc DeleteEntity (DeleteEntityRequest) returns (DeleteEntityResponse) {
+    option (google.api.http) = {
+      delete: "/v1/entities/{id}"
+    };
+  }
+}
